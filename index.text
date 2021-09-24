@@ -1,0 +1,34 @@
+var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        output = JSON.parse(xhttp.responseText);
+
+                        for (var i = 0; i < number_of_dogs; i++) {
+                            var message = output[i]['message'];
+                            
+                            var output_html = "<div class='dog_table'>" + message + "</div><br><br>";
+                            output_html += output[i];
+                            
+                            var number_of_dog = message.length;
+                            var dogs_found = "";
+                        for (var j = 0; j < number_of_dog; j++) {
+                            dogs_found = message[j];
+                            output_html += dogs_found + "<br><br>";
+                        }
+
+                        var currentHTML = document.getElementById("outside_container").innerHTML;
+                        currentHTML += output_html;
+
+                        document.getElementById("outside_container").innerHTML = currentHTML;
+
+                        }
+
+                
+                }
+
+                    xhttp.open("GET", requested_endpoint, true);
+                    xhttp.send();
+
+                }
+
+                }
