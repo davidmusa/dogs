@@ -15,6 +15,7 @@
 
             <script>
 
+                //Fetch the breed list
                 async function dog_request() {
 
                     const response = await fetch("https://dog.ceo/api/breeds/list/all")
@@ -24,16 +25,23 @@
 
                 dog_request()
 
+                //Responsible for creating the select element
                 function createList(breedList) {
 
                     document.getElementById("breed").innerHTML = `
-                        <select>
+                        <select onchange="loadBreed(this.value)">
                         <option>Choose a dog breed</option>
                         ${Object.keys(breedList).map(function (breed) {
                             return `<option>${breed}</option>`
                         }).join('')}
                         </select>
                     `
+                }
+
+
+                function loadBreed(breed) {
+
+                    alert(breed)
                 }
                 
             </script>                
