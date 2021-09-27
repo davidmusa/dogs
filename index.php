@@ -17,12 +17,18 @@
 
                 function dog_request() {
 
-                var dogURL = "https://dog.ceo/api/breed";
                 var dog_input = document.getElementById("input_dog").value;
-                var endpoint = "https://dog.ceo/api/breed/"+dogURL+"/images/random";
+                var endpoint = "https://dog.ceo/api/breeds/list/all";
                 var requested_endpoint = endpoint + dog_input;
-                
+
                 var output = "";
+
+                var xhttp = new XMLHttpRequest();
+                xhttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        output = JSON.parse(xhttp.responseText);
+                
+               
 
                 }
             </script>                
