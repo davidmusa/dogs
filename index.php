@@ -9,61 +9,39 @@
         </head>
         <body>
             
-
-            <div class="app">
+            <div class="main_div">
                 <div class="header">
-                    <h1>Dog App</h1>
-                    <div id="breed"></div>
+                    <h1>Infinite Dog App</h1>
+                    <div id="breed">
+                        <input type="text" id="dog_breed_input">
+                        <button id="request_dog" onclick="dog_input()">GET BREED</button>
+                    </div>
                 </div>
-                <div class="slideshow">
-                    <div class="slide" style="background-image: url('')"></div>
+                <div class="slideshow" id="slideshow">
+
                 </div>
             </div>
 
-            <script>
-
-                //Fetch the breed list
-                async function dog_request() {
-
+        <script>
+            
+            async function dog_input() {
+                try {
                     const response = await fetch("https://dog.ceo/api/breeds/list/all")
                     const data = await response.json()
-                    createList(data.message)
+                    createBreedList(data.message)
+                } catch (e) {
+                    console.log("There was a problem fetching the breed list.")
                 }
+            }
 
-                dog_request()
-
-                //Responsible for creating the select element
-                function createList(breedList) {
-
-                    document.getElementById("breed").innerHTML = `
-                        <select onchange="loadBreed(this.value)">
-                        <option>Choose a dog breed</option>
-                        ${Object.keys(breedList).map(function (breed) {
-                            return `<option>${breed}</option>`
-                        }).join('')}
-                        </select>
-                    `
+            async function loadByBreed(breed) {
+                if (breed != "Choose a dog breed") {
+                    const response = await fetch(`https://dog.ceo/api/breed/${breed}/images`)
+                    const data = await response.json()
+                    createSlideshow(data.message)
                 }
-
-                //Responsible to load data
-                async function loadBreed(breed) {
-
-                    if (breed != "Choose a dog breed") {
-                        const response = await fetch(`https://dog.ceo/api/breed/${breed}/images`)
-                        const data =await response.json()
-                        createSlideShow(data.message)
-                    }
-                }
-
-
-                function createSlideShow(images) {
-                    document.getElementById("outer_html").innerHTML = `
-                        <div class="slide" style="background-image: url('${images[0]}')"></div>
-                    `
-
-                }
-                
-            </script>                
+            }
+        </script>                
 
         </body>
     </html>
