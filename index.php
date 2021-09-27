@@ -7,30 +7,35 @@
             <title>Dogs</title>
         </head>
         <body>
-            <div id="inside_container">
-                <input type="text" id="input_dog" value="" placeholder="Write your dog breed">
-                <button id="request_dog" onclick="dog_request()">GET BREED</button>
+            <h1>Dog App</h1>
+
+            <div id="breed">
+
             </div>
-            <div id="outside_container">Get the subbreed here</div>
 
             <script>
 
-                function dog_request() {
+                async function dog_request() {
 
-                var dog_input = document.getElementById("input_dog").value;
-                var endpoint = "https://dog.ceo/api/breeds/list/all";
-                var requested_endpoint = endpoint + dog_input;
-
-                var output = "";
-
-                var xhttp = new XMLHttpRequest();
-                xhttp.onreadystatechange = function() {
-                    if (this.readyState == 4 && this.status == 200) {
-                        output = JSON.parse(xhttp.responseText);
-                
-               
-
+                    const response = await fetch("https://dog.ceo/api/breeds/list/all")
+                    const data = await response.json()
+                    createList(data.message)
                 }
+
+                dog_request()
+
+                function createList(breedList) {
+
+                    document.getElementById("breed").innerHTML = `
+                        <select>
+                        <option>Choose a dog breed</option>
+                        ${Object.keys(breedList).map(function (breed) {
+                            return `<option>${breed}</option>`
+                        }).join('')}
+                        </select>
+                    `
+                }
+                
             </script>                
 
         </body>
