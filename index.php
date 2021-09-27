@@ -4,13 +4,20 @@
             <meta charset="UTF-8">
             <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <link rel="stylesheet" href="styles.css">
             <title>Dogs</title>
         </head>
         <body>
-            <h1>Dog App</h1>
+            
 
-            <div id="breed">
-
+            <div class="app">
+                <div class="header">
+                    <h1>Dog App</h1>
+                    <div id="breed"></div>
+                </div>
+                <div class="slideshow">
+                    <div class="slide" style="background-image: url('')"></div>
+                </div>
             </div>
 
             <script>
@@ -38,10 +45,22 @@
                     `
                 }
 
+                //Responsible to load data
+                async function loadBreed(breed) {
 
-                function loadBreed(breed) {
+                    if (breed != "Choose a dog breed") {
+                        const response = await fetch(`https://dog.ceo/api/breed/${breed}/images`)
+                        const data =await response.json()
+                        createSlideShow(data.message)
+                    }
+                }
 
-                    alert(breed)
+
+                function createSlideShow(images) {
+                    document.getElementById("outer_html").innerHTML = `
+                        <div class="slide" style="background-image: url('${images[0]}')"></div>
+                    `
+
                 }
                 
             </script>                
