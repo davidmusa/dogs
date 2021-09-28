@@ -25,22 +25,16 @@
         <script>
             
             async function dog_input() {
-                try {
-                    const response = await fetch("https://dog.ceo/api/breeds/list/all")
-                    const data = await response.json()
-                    createBreedList(data.message)
-                } catch (e) {
-                    console.log("There was a problem fetching the breed list.")
-                }
-            }
+                
+                var word_input = document.getElementById("dog_breed_input").value;
+                var endpoint = "https://dog.ceo/api/breeds/list/all";
+                var requested_endpoint = endpoint + "?contains=" + word_input + "&amount=";
 
-            async function loadByBreed(breed) {
-                if (breed != "Choose a dog breed") {
-                    const response = await fetch(`https://dog.ceo/api/breed/${breed}/images`)
-                    const data = await response.json()
-                    createSlideshow(data.message)
-                }
+                var output = "";
+
+                console.log(requested_endpoint)
             }
+                
         </script>                
 
         </body>
