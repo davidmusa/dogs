@@ -10,56 +10,43 @@
 
         <body>
             
-            <div class="container">
+            <div class="app">
 
                 <h1>Dogs</h1>
 
-                    <form>
-                        <label for="breed">Breed</label>
-                        <input type="search" name="phone" id="breed" placeholder="Enter Breed" title="dog breeds"/>
-                        <input type="submit" value="Get a dog pic!">
-                    </form>
+                <form>
+                    <div class="app">
+                        <div id="breed"></div>    
+                        
+                    </div>
+                </form>
 
-                        <section class="results hidden">
-                            <h2>Look at this dog!</h2>
-                            <img class="results-img" alt="placeholder">
-                        </section>
+            </div>
+
+            <div class="slideshow" id="slideshow">
 
             </div>
 
             <script>
 
-                'use strict';
-                
-                function getDogImage(breed) {
-                    fetch(`https://dog.ceo/api/breed/${breed}/images/random`)
-                    .then(response => response.json())
-                    .then(responseJson => 
-                    displayResults(responseJson))
-                    .catch(error => alert('Something went wrong. Try again later.'));
+                async function start() {
+                    try {
+                        const response = await fetch("https://dog.ceo/api/breeds/list/all")
+                        const data = await response.json()
+                        createBreedList(data.message)
+                    } catch (e) {
+                        console.log("There was a problem fetching the breed list.")
+                    }
                 }
 
-                function displayResults(responseJson) {
-                    console.log(responseJson);
-                    //replace the existing image with the new one
-                    $('.results-img').replaceWith(
-                    `<img src="${responseJson.message}" class="results-img">`
-                    )
-                    //display the results section
-                    $('.results').removeClass('hidden');
-                }
+                start()
 
-                function watchForm() {
-                    $('form').submit(event => {
-                    event.preventDefault();
-                    getDogImage($('#breed').val());
-                    });
+                function createBreedList(breedList) {
+                    document.getElementById("breed").innerHTML = 
+                        "<input type='search' id='input_breed' placeholder='Enter Breed' title='dog breeds'/>" + "<input type='submit' value='Get the sub-breeds!'>";
+                    
+                    
                 }
-
-                $(document).ready(function() {
-                    console.log('App loaded! Waiting for submit!');
-                    watchForm();
-                });
                     
             </script>                
 
