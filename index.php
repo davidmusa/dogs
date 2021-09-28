@@ -17,7 +17,8 @@
                 <form>
                     <div class="app">
                         <div id="breed"></div>    
-                        
+                            <input type="search" id="dogs">
+                            <button onclick="loadDoc()">GO</button>
                     </div>
                 </form>
 
@@ -29,24 +30,20 @@
 
             <script>
 
-                async function start() {
-                    try {
-                        const response = await fetch("https://dog.ceo/api/breeds/list/all")
-                        const data = await response.json()
-                        createBreedList(data.message)
-                    } catch (e) {
-                        console.log("There was a problem fetching the breed list.")
-                    }
-                }
+                function loadDoc() {
+                    var dogs = $("#dogs").val();
+                    var url = "https://dog.ceo/api/breeds/list/all/jsonp?    symbol=" + dogs;
 
-                start()
-
-                function createBreedList(breedList) {
-                    document.getElementById("breed").innerHTML = 
-                        "<input type='search' id='input_breed' placeholder='Enter Breed' title='dog breeds'/>" + "<input type='submit' value='Get the sub-breeds!'>";
-                    
-                    
-                }
+                    $.ajax({
+                        url: url,
+                        dataType: 'jsonp',
+                        success: function(results){
+                            var status = results.Status;
+                            var message = results.message;
+                            $('#results').append(status + '. Company is: ' + message);
+                        }
+                    });
+                };
                     
             </script>                
 
