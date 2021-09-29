@@ -1,53 +1,76 @@
+<?php
+
+    /*
+    * Date: 2021-09-29  
+    * Author: David Musa
+    * Description: In this file you can write a breed and it will pull up a picture of a subbreed!
+    */
+
+?>
+
 <!DOCTYPE html>
     <html lang="en">
         <head>
             <meta charset="UTF-8">
-            <meta http-equiv="X-UA-Compatible" content="IE=edge">
             <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <meta http-equiv="X-UA-Compatible" content="ie=edge">
+            <title>Dog API Example</title>
+            <link rel="shortcut icon" href="">
             <link rel="stylesheet" href="styles.css">
-            <title>Dogs</title>
         </head>
-
         <body>
-            
-            <div class="app">
-
-                <h1>Dogs</h1>
-
+            <div class="container">
+                <h1>Dog API: A Simple Example</h1>
+                
                 <form>
-                    <div class="app">
-                        <div id="breed"></div>    
-                            <input type="search" id="dogs">
-                            <button onclick="loadDoc()">GO</button>
-                    </div>
+                    <label for="breed">Breed</label>
+                    <input type="search" id="breed" placeholder="Enter Breed" title="dog breeds"/>
+
+                <input type="submit" value="Get a dog pic!">
                 </form>
-
+                <section class="results hidden">
+                <h2>Look at this dog!</h2>
+                <img class="results-img" alt="placeholder">
+                </section>
             </div>
-
-            <div class="slideshow" id="slideshow">
-
-            </div>
+            
+            <script src="https://code.jquery.com/jquery-3.3.1.js" integrity="sha256-2Kok7MbOyxpgUVvAk/HJ2jigOSYS2auK4Pfzbm7uH60=" crossorigin="anonymous"></script>
 
             <script>
 
-                function loadDoc() {
-                    var dogs = $("#dogs").val();
-                    var url = "https://dog.ceo/api/breeds/list/all/jsonp?    symbol=" + dogs;
+                'use strict';
 
-                    $.ajax({
-                        url: url,
-                        dataType: 'jsonp',
-                        success: function(results){
-                            var status = results.Status;
-                            var message = results.message;
-                            $('#results').append(status + '. Company is: ' + message);
-                        }
+                function getDogImage(breed) {
+                    fetch(`https://dog.ceo/api/breed/${breed}/images/random`)
+                    .then(response => response.json())
+                    .then(responseJson => 
+                    displayResults(responseJson))
+                    .catch(error => alert('Something went wrong. Try again later.'));
+                }
+
+                function displayResults(responseJson) {
+                    console.log(responseJson);
+                    $('.results-img').replaceWith(
+                    `<img src="${responseJson.message}" class="results-img">`
+                    )
+                    $('.results').removeClass('hidden');
+                }
+
+                function watchForm() {
+                    $('form').submit(event => {
+                        event.preventDefault();
+                        getDogImage($('#breed').val());
                     });
-                };
-                    
-            </script>                
+                }
+
+                $(function() {
+                    console.log('App loaded! Waiting for submit!');
+                    watchForm();
+                });
+
+                            
+            </script>   
 
         </body>
-    </html>
 
-    
+    </html>
